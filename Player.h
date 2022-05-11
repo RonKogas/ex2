@@ -112,10 +112,10 @@ public:
     Player& operator=(const Player& other) = default;
 
 private:
-    const std::string m_name;
+    std::string m_name;
     int m_level;
     int m_force;
-    const int m_maxHP;
+    int m_maxHP;
     int m_HP;
     int m_coins;
 };
