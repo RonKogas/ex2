@@ -1,13 +1,18 @@
+#include "Mtmchkin.h"
+#include "Card.h"
+#include "Player.h"
+#include "utilities.h"
+
 Mtmchkin::Mtmchkin(const char* playerName, const Card* cardsArray, int numOfCards) :
-m_player(new Player(playerName)),
-m_array(new Card[numOfCards]), 
-m_size(numOfCards),
-m_status(GameStats::MidGame), 
-m_nextCardIndex(0)
+m_player(Player(playerName)),
+m_nextCardIndex(0),
+m_status(GameStatus::MidGame), 
+m_cardsArray(new Card[numOfCards]), 
+m_size(numOfCards)
 {
     for(int i=0; i<numOfCards; ++i)
     {
-        m_array[i] = cardsArray[i];
+        m_cardsArray[i] = cardsArray[i];
     }
 }
 
@@ -15,7 +20,7 @@ void Mtmchkin::playNextCard()
 {
     if(m_status==GameStatus::MidGame)
     {
-        Card nextCard=array[m_nextCardIndex];
+        Card nextCard=m_cardsArray[m_nextCardIndex];
         nextCard.printInfo();
         nextCard.applyEncounter(m_player);
         if(m_player.getLevel()>=10)
@@ -40,46 +45,47 @@ bool Mtmchkin::isOver() const
     return true;
 }
 
-GameStatus Mtmckin::getGameStatus() const
+GameStatus Mtmchkin::getGameStatus() const
 {
     return m_status;
 }
 
 Mtmchkin::~Mtmchkin()
 {
-    delete[] m_array;
-    delete m_player;
+    delete[] m_cardsArray;
+    //delete &m_player;
 }
 
-Mtmchkin::Mtmchkin(const Mtmchkin& game)
-m_player(new Player(game.m_player)),
-m_array(new Card[game.m_size]), 
-m_size(game.m_size),
-m_status(game.m_status), 
-m_nextCardIndex(game.m_nextCardIndex)
+
+Mtmchkin::Mtmchkin(const Mtmchkin& game) :
+m_player(Player(game.m_player)),
+m_nextCardIndex(game.m_nextCardIndex),
+m_status(game.m_status),
+m_cardsArray(new Card[game.m_size]), 
+m_size(game.m_size)
 {
     for(int i=0; i<m_size; ++i)
     {
-        m_array[i] = game.m_array[i];
+        m_cardsArray[i] = game.m_cardsArray[i];
     }
 }
 
-Mtmchkin& operator=(const Mtmchkin& gmae)
+Mtmchkin& Mtmchkin::operator=(const Mtmchkin& game)
 {
     if(this==&game)
     {
         return *this;
     }
-    delete[] m_array;
-    delete m_player
-    m_player = new Player(game.m_player);
-    m_array = new Card[game.m_size];
+    delete[] m_cardsArray;
+    m_player = Player(game.m_player);
+    m_cardsArray = new Card[game.m_size];
     m_size = game.m_size;
     m_status = game.m_status;
     m_nextCardIndex = game.m_nextCardIndex;
     for(int i=0; i<m_size; ++i)
     {
-        m_array[i] = game.m_array[i];
+        m_cardsArray[i] = game.m_cardsArray[i];
     }
+    return *this;
 }
 
