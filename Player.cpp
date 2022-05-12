@@ -12,15 +12,18 @@ Player::Player(const string name, const int maxHP, const int force) :
     m_maxHP((maxHP > 0) ? maxHP : DEFAULT_MAX_HP),
     m_HP((maxHP > 0) ? maxHP : DEFAULT_MAX_HP),
     m_coins(0)
-{}
+{
+}
 
 
-void Player::printInfo() const {
+void Player::printInfo() const 
+{
     printPlayerInfo(m_name.c_str(), m_level, m_force, m_HP, m_coins);
 }
 
 
-Player& Player::levelUp() {
+Player& Player::levelUp() 
+{
     if (m_level < MAX_LEVEL) {
         m_level += 1;
     }
@@ -28,12 +31,14 @@ Player& Player::levelUp() {
 }
 
 
-int Player::getLevel() const {
+int Player::getLevel() const 
+{
     return m_level;
 }
 
 
-Player& Player::buff(const int forceToIncrease) {
+Player& Player::buff(const int forceToIncrease) 
+{
     if(forceToIncrease > 0) {
         m_force += forceToIncrease;
     }
@@ -41,7 +46,8 @@ Player& Player::buff(const int forceToIncrease) {
 }
 
 
-Player& Player::heal(const int HPToIncrease) {
+Player& Player::heal(const int HPToIncrease) 
+{
     if(HPToIncrease > 0) {
         if(m_HP + HPToIncrease <= m_maxHP) {
             m_HP += HPToIncrease;
@@ -53,7 +59,8 @@ Player& Player::heal(const int HPToIncrease) {
 }
 
 
-Player& Player::damage(const int HPToDecrease) {
+Player& Player::damage(const int HPToDecrease) 
+{
     if(HPToDecrease > 0) {
         if(m_HP - HPToDecrease >= 0) {
             m_HP -= HPToDecrease;
@@ -65,12 +72,14 @@ Player& Player::damage(const int HPToDecrease) {
 }
 
 
-bool Player::isKnockedOut() const {
+bool Player::isKnockedOut() const 
+{
     return !m_HP;
 }
 
 
-Player& Player::addCoins(const int coinsToAdd) {
+Player& Player::addCoins(const int coinsToAdd) 
+{
     if (coinsToAdd > 0) {
         m_coins += coinsToAdd;
     }
@@ -78,7 +87,8 @@ Player& Player::addCoins(const int coinsToAdd) {
 }
 
 
-bool Player::pay(const int coinsToPay) {
+bool Player::pay(const int coinsToPay) 
+{
     if((coinsToPay >= 0) && (m_coins - coinsToPay >= 0)) {
         m_coins -= coinsToPay;
         return true;
@@ -90,6 +100,7 @@ bool Player::pay(const int coinsToPay) {
 }
 
 
-int Player::getAttackStrength() const {
+int Player::getAttackStrength() const 
+{
     return m_force + m_level;
 }
